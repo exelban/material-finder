@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "MaterialIcons-Regular";
+  src: url("./assets/fonts/MaterialIcons-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "MaterialIcons-Outlined";
+  src: url("./assets/fonts/MaterialIconsOutlined-Regular.otf") format("truetype");
+}
+@font-face {
+  font-family: "MaterialIcons-Round";
+  src: url("./assets/fonts/MaterialIconsRound-Regular.otf") format("truetype");
+}
+@font-face {
+  font-family: "MaterialIcons-Sharp";
+  src: url("./assets/fonts/MaterialIconsSharp-Regular.otf") format("truetype");
+}
+@font-face {
+  font-family: "MaterialIcons-TwoTone";
+  src: url("./assets/fonts/MaterialIconsTwoTone-Regular.otf") format("truetype");
+}
+
+.icon {
+  font-family: "MaterialIcons-Regular";
+  font-size: 24px;
+
+  &.outlined {
+    font-family: "MaterialIcons-Outlined";
+  }
+  &.round {
+    font-family: "MaterialIcons-Round";
+  }
+  &.sharp {
+    font-family: "MaterialIcons-Sharp";
+  }
+  &.two-tone {
+    font-family: "MaterialIcons-TwoTone";
+  }
+}

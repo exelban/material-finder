@@ -1,0 +1,20 @@
+{
+  "name": "material-finder",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "deploy": "yarn build && npx wrangler pages deploy ./dist --project-name material-finder --branch master"
+  },
+  "dependencies": {
+    "@vueuse/core": "^12.0.0",
+    "tailwindcss": "^3.4.16",
+    "vue": "3.5.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "5.2.1",
+    "vite": "6.0.1"
+  }
+}
