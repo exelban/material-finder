@@ -66,6 +66,16 @@
               </button>
             </div>
           </div>
+          <div v-if="svg">
+            <label for="name" class="text-sm font-medium text-gray-900 dark:text-white mb-1 block">SVG:</label>
+            <div class="relative w-full rounded-lg bg-gray-100 dark:bg-neutral-800">
+              <input id="name" type="text" class="w-80 col-span-6 bg-transparent text-gray-500 text-sm block p-2.5" :value="svg" disabled readonly>
+              <button @click="copySVG" data-copy-to-clipboard-target="svg" data-tooltip-target="tooltip-svg" class="absolute end-2 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-full p-2 inline-flex items-center justify-center">
+                <span id="default-icon-svg"><svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="#5f6368"><path d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z"/></svg></span>
+                <span id="success-icon-svg" class="hidden inline-flex items-center"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+              </button>
+            </div>
+          </div>
 
         </div>
 
@@ -96,7 +106,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import {ref, watch} from "vue"
 
 const target = ref("svg")
 const version = ref("regular")
@@ -104,6 +114,7 @@ const props = defineProps({
   icon: Object,
   isOpen: Boolean
 })
+const svg = ref(null)
 
 defineEmits({
   close: null
@@ -147,4 +158,33 @@ const copyName = () => {
     $successIcon.classList.add('hidden')
   }, 1000)
 }
+const copySVG = () => {
+  const $defaultIcon = document.getElementById('default-icon-svg')
+  const $successIcon = document.getElementById('success-icon-svg')
+
+  $defaultIcon.classList.add('hidden')
+  $successIcon.classList.remove('hidden')
+
+  navigator.clipboard.writeText(svg.value)
+
+  setTimeout(() => {
+    $defaultIcon.classList.remove('hidden')
+    $successIcon.classList.add('hidden')
+  }, 1000)
+}
+
+watch(() => props.icon, async () => {
+  if (!props.icon) {
+    svg.value = null
+    return
+  }
+
+  const url = `https://api.serhiy.io/v1/material-finder/${props.icon.key}/svg?version=${version.value}`
+  const response = await fetch(url)
+  if (!response.ok) {
+    svg.value = null
+    return
+  }
+  svg.value = await response.text()
+})
 </script>
